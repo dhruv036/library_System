@@ -38,7 +38,7 @@ public class EmployeeDashboard extends AppCompatActivity {
     String stu_name,stu_email;
     FirebaseDatabase database;
     String bookname;
-    boolean scantype = false;
+    int scantype = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +102,7 @@ public class EmployeeDashboard extends AppCompatActivity {
 
         final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
                 result -> {
-                    if (scantype == false) {
+                    if (scantype == 0) {
                         if (result.getContents() == null) {
                             Toast.makeText(EmployeeDashboard.this, "Cancelled", Toast.LENGTH_LONG).show();
                         } else {
@@ -112,7 +112,7 @@ public class EmployeeDashboard extends AppCompatActivity {
 //                        Toast.makeText(MainActivity.this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                         }
                     }
-                    if (scantype == true) {
+                    if (scantype == 1) {
                         if (result.getContents() == null) {
                             Toast.makeText(EmployeeDashboard.this, "Cancelled", Toast.LENGTH_LONG).show();
                         } else {
@@ -121,10 +121,31 @@ public class EmployeeDashboard extends AppCompatActivity {
                             checkbook(scnresult);
 //                        Toast.makeText(MainActivity.this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                         }
-
+                    }
+                    if (scantype == 2) {
+                        if (result.getContents() == null) {
+                            Toast.makeText(EmployeeDashboard.this, "Cancelled", Toast.LENGTH_LONG).show();
+                        } else {
+                            Log.e("TAG", result.getContents());
+                            scnresult = result.getContents();
+                            depositebook(scnresult);
+//                        Toast.makeText(MainActivity.this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                        }
                     }
 
                 });
+        //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
+        binding.depositebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                scantype = 2; // scan book id
+                ScanOptions options = new ScanOptions();
+                options.setTorchEnabled(true);
+                options.setPrompt("Scaning QR");
+                options.setTimeout(5000);
+                barcodeLauncher.launch(new ScanOptions());
+            }
+        });
 
         binding.subbook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,7 +172,7 @@ public class EmployeeDashboard extends AppCompatActivity {
         binding.scanbook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                scantype = true;
+                scantype = 1; // scan book id
                 ScanOptions options = new ScanOptions();
                 options.setTorchEnabled(true);
                 options.setPrompt("Scaning QR");
@@ -163,7 +184,7 @@ public class EmployeeDashboard extends AppCompatActivity {
         binding.issuebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scantype = false;
+                scantype = 0;  //scan user
                 ScanOptions options = new ScanOptions();
                 options.setTorchEnabled(true);
                 options.setPrompt("Scaning QR");
@@ -295,5 +316,33 @@ public class EmployeeDashboard extends AppCompatActivity {
             Toast.makeText(EmployeeDashboard.this, "User not FOUND!", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public  void depositebook(String id)
+    {
+        database.getReference().child("Issued_Book").child(FeatureController.getController().getEmp_name()).orderByChild("book_id").equalTo(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists())
+                {
+                    for(DataSnapshot snapshot1 : snapshot.getChildren())
+                    {
+                        BookModal bookModal =  snapshot1.getValue(BookModal.class);
+                        if(bookModal.getBook_id().equals(id))
+                        {
+                            database.getReference().child("Issued_Book").child(FeatureController.getController().getEmp_name()).child(snapshot1.getKey()).removeValue();
+                            Toast.makeText(EmployeeDashboard.this, "Book Deposited Successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        scantype = 0;
     }
 }
