@@ -56,7 +56,7 @@ public class EmployeeDashboard extends AppCompatActivity {
         setContentView(binding.getRoot());
         getSupportActionBar().hide();
         database = FirebaseDatabase.getInstance();
-        binding.teachName.setText(getIntent().getStringExtra("Empname"));
+        binding.teachName.setText(getIntent().getStringExtra("username"));
 
 //        try {
 //            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();

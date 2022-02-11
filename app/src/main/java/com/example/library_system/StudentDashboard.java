@@ -13,5 +13,7 @@ ActivityStudentDashboardBinding binding;
         super.onCreate(savedInstanceState);
         binding =ActivityStudentDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        binding.textView.setText(getIntent().getStringExtra("username"));
     }
 }

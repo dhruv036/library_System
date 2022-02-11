@@ -83,12 +83,13 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardpass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_15sdp"
             android:layout_marginTop="@dimen/_2sdp"
             android:layout_marginRight="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_10sdp"
+
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="@dimen/_15sdp"
             app:cardElevation="@dimen/_15sdp">
@@ -145,10 +146,34 @@
 
                 </LinearLayout>
 
+
+
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 
+        <LinearLayout
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <CheckBox
+                android:id="@+id/saveuser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="?android:attr/listChoiceIndicatorMultiple"
+                android:buttonTint="@color/teal_200"
+                android:text="Remenber me" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_weight="0.1"
+                android:text="Forgot Password" />
+
+        </LinearLayout>
         <Button
             android:id="@+id/loginbut"
             android:layout_width="wrap_content"

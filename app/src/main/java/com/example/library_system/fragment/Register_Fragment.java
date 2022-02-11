@@ -22,6 +22,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class Register_Fragment extends Fragment {
@@ -40,7 +41,8 @@ public class Register_Fragment extends Fragment {
                 fragmentBinding.loading.setVisibility(View.VISIBLE);
                 fragmentBinding.subbut.setVisibility(View.GONE);
                 if (!(fragmentBinding.emailinput.getText().toString().equals("")) && fragmentBinding.emailinput.getText() != null) {
-                    String email = fragmentBinding.emailinput.getText().toString();
+                    String email = fragmentBinding.emailinput.getText().toString().toLowerCase(Locale.ROOT);
+
                     if (emailisvalid(email)) {
                         int index = email.indexOf("@");
                         String stremail = email.substring(0, index);
