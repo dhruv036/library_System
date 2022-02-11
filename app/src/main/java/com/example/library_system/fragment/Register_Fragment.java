@@ -61,20 +61,14 @@ public class Register_Fragment extends Fragment {
                                         fragmentBinding.loading.setVisibility(View.GONE);
                                         fragmentBinding.subbut.setVisibility(View.VISIBLE);
                                         Toast.makeText(getActivity(), "User present Already please Login", Toast.LENGTH_SHORT).show();
-
                                     } else {
 
                                     }
-
                                 } else {
-
-
                                     String pass = fragmentBinding.passinput.getText().toString();
                                     String name = fragmentBinding.nameinput.getText().toString();
                                     if (!(name.equals("")) && name != null) {
-
                                         if (!(fragmentBinding.conpassinput.getText().toString().equals("") || fragmentBinding.passinput.getText().toString().equals(""))) {
-
                                             if (fragmentBinding.conpassinput.getText().toString().equals(pass)) {
                                                 UserModal userr = new UserModal(name, email, pass);
                                                 if (user_type == 0) {

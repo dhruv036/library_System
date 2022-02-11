@@ -39,27 +39,22 @@ LoginFragmentBinding binding;
           binding.loginbut.setVisibility(View.GONE);
 
           if(binding.emailinput != null && !binding.emailinput.getText().toString().equals("")) {
-
               String email = binding.emailinput.getText().toString();
               if (emailisvalid(email)) {
-
                   if (binding.passinput != null && !binding.passinput.getText().toString().equals("")) {
-
-
                   int index = email.indexOf("@");
                   String strtemail = email.substring(0, index);
                   if (user_type == 0) {
-
                       database.getReference().child("Student_info").child(strtemail).addListenerForSingleValueEvent(new ValueEventListener() {
                           @Override
                           public void onDataChange(@NonNull DataSnapshot snapshot) {
                               if (snapshot.exists()) {
                                   UserModal user = snapshot.getValue(UserModal.class);
                                   if (email.equals(user.getUser_email())) {
-                                      if (binding.passinput.getText().toString().equals(user.user_pass)) {
+                                      if (binding.passinput.getText().toString().equals(user.getUser_pass())) {
                                           binding.loading.setVisibility(View.GONE);
-
-                                          Toast.makeText(getActivity(), "Password correct", Toast.LENGTH_SHORT).show();
+                                          FeatureController.getController().setEmp_email(user.getUser_email());
+                                          Toast.makeText(getActivity(), " "+user.getUser_email(),Toast.LENGTH_SHORT).show();
                                           startActivity(new Intent(getActivity(), StudentDashboard.class));
                                           getActivity();
                                       } else {
@@ -76,12 +71,9 @@ LoginFragmentBinding binding;
                                       Toast.makeText(getActivity(), "User not present", Toast.LENGTH_SHORT).show();
                                   }
                               }
-
                           }
-
                           @Override
                           public void onCancelled(@NonNull DatabaseError error) {
-
                           }
                       });
                   } else {
@@ -95,6 +87,7 @@ LoginFragmentBinding binding;
                                   if (email.equals(user.user_email)) {
                                       if (binding.passinput.getText().toString().equals(user.user_pass)) {
                                           binding.loading.setVisibility(View.GONE);
+                                          FeatureController.getController().setEmp_email(user.getUser_email());
                                           Toast.makeText(getActivity(), "Password correct", Toast.LENGTH_SHORT).show();
                                       Intent intent = new Intent(getActivity(), EmployeeDashboard.class);
                                           FeatureController.getController().setEmp_name(user.getUser_name());
@@ -115,10 +108,8 @@ LoginFragmentBinding binding;
                                   }
                               }
                           }
-
                           @Override
                           public void onCancelled(@NonNull DatabaseError error) {
-
                           }
                       });
                   }

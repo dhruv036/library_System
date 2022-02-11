@@ -5,7 +5,7 @@ import com.example.library_system.modal_class.UserModal;
 public class FeatureController {
 
    private int user_type;
-   private String emp_name;
+   private String emp_name,emp_email;
     private UserModal user;
     // 0 student 1 Employee
 
@@ -29,6 +29,14 @@ public class FeatureController {
 
     public UserModal getUser() {
         return user;
+    }
+
+    public String getEmp_email() {
+        return emp_email;
+    }
+
+    public void setEmp_email(String emp_email) {
+        this.emp_email = emp_email;
     }
 
     public void setUser(UserModal user) {
