@@ -19,6 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SplashActivity extends AppCompatActivity {
     SplashLayoutBinding binding;
+
     FirebaseDatabase database;
     String username, pass;
 

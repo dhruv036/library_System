@@ -68,10 +68,14 @@ public class Login_Fragment extends Fragment {
                                                        preferenceseditor.putString("userpass", user.getUser_pass());
                                                        // false for student
                                                        preferenceseditor.putBoolean("usertype", false);
+
                                                        preferenceseditor.commit();
                                                    }
                                                     Toast.makeText(getActivity(), " " + user.getUser_email(), Toast.LENGTH_SHORT).show();
-                                                    startActivity(new Intent(getActivity(), StudentDashboard.class));
+                                                    Intent intent = new Intent(getActivity(), StudentDashboard.class);
+                                                    FeatureController.getController().setEmp_name(user.getUser_name());
+                                                    intent.putExtra("username", user.getUser_name());
+                                                    startActivity(intent);
                                                 } else {
                                                     binding.loading.setVisibility(View.GONE);
                                                     binding.loginbut.setVisibility(View.VISIBLE);
@@ -93,8 +97,6 @@ public class Login_Fragment extends Fragment {
                                     }
                                 });
                             } else {
-
-
                                 database.getReference().child("Employee_info").child(strtemail).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {

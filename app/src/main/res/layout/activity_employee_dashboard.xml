@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
         android:fontFamily="@font/raleway_extrabold"
-        android:text="30"
+        android:text="0"
         android:textSize="@dimen/_20ssp"
         app:layout_constraintEnd_toEndOf="@id/guideline9"
         app:layout_constraintStart_toStartOf="@id/guideline8"
@@ -204,7 +204,7 @@
                     android:visibility="gone" />
 
                 <Button
-                    android:id="@+id/subbook"
+                    android:id="@+id/subbookbt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -238,6 +238,7 @@
                     android:layout_height="match_parent"
                     android:nestedScrollingEnabled="false"
                     tools:itemCount="8"
+                    android:fadeScrollbars="true"
                     tools:listitem="@layout/child_history_layout" />
 
                 <com.airbnb.lottie.LottieAnimationView

@@ -3,7 +3,22 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/dhruv/OneDrive/Desktop/library_System/app/src/main/res/layout/activity_employee_dashboard.xml" value="0.20185185185185187" />
+        <entry key="..\:/Users/Dhruv/Desktop/library_System/app/src/main/res/drawable/buttongradient.xml" value="0.2075" />
+        <entry key="..\:/Users/Dhruv/Desktop/library_System/app/src/main/res/layout/activity_employee_dashboard.xml" value="0.2" />
+        <entry key="..\:/Users/Dhruv/Desktop/library_System/app/src/main/res/layout/activity_student_dashboard.xml" value="0.33" />
+        <entry key="..\:/Users/Dhruv/Desktop/library_System/app/src/main/res/layout/child_history_layout.xml" value="0.33" />
+        <entry key="..\:/Users/Dhruv/Desktop/library_System/app/src/main/res/layout/dialoglayout.xml" value="0.2" />
+        <entry key="..\:/Users/Dhruv/Desktop/library_System/app/src/main/res/layout/issuedbook_child_layout.xml" value="0.2" />
+        <entry key="..\:/Users/Dhruv/Desktop/library_System/app/src/main/res/layout/login_fragment.xml" value="0.25" />
+        <entry key="..\:/Users/Dhruv/Desktop/library_System/app/src/main/res/layout/login_layout.xml" value="0.2" />
+        <entry key="..\:/Users/Dhruv/Desktop/library_System/app/src/main/res/layout/menuitems.xml" value="0.2" />
+        <entry key="..\:/Users/Dhruv/Desktop/library_System/app/src/main/res/layout/menulayout.xml" value="0.2" />
+        <entry key="..\:/Users/Dhruv/Desktop/library_System/app/src/main/res/layout/splash_layout.xml" value="0.2" />
+        <entry key="..\:/Users/Dhruv/Desktop/library_System/app/src/main/res/menu/menu_items.xml" value="0.2" />
+        <entry key="..\:/Users/dhruv/OneDrive/Desktop/library_System/app/src/main/res/layout/activity_employee_dashboard.xml" value="0.22" />
+        <entry key="..\:/Users/dhruv/OneDrive/Desktop/library_System/app/src/main/res/layout/child_history_layout.xml" value="0.22" />
+        <entry key="..\:/Users/dhruv/OneDrive/Desktop/library_System/app/src/main/res/layout/dialoglayout.xml" value="0.22447916666666667" />
+        <entry key="..\:/Users/dhruv/OneDrive/Desktop/library_System/app/src/main/res/layout/login_fragment.xml" value="0.22447916666666667" />
       </map>
     </option>
   </component>
