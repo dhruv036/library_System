@@ -79,6 +79,9 @@ public class Register_Fragment extends Fragment {
                                                         public void onSuccess(Void unused) {
                                                             fragmentBinding.loading.setVisibility(View.GONE);
                                                             fragmentBinding.subbut.setVisibility(View.VISIBLE);
+                                                            int index  =email.indexOf("@");
+                                                            String stuem = email.substring(0,index);
+                                                            database.getReference().child("Issued_Book_Stu").child(stuem).child("noofbook").setValue(0);
                                                             Toast.makeText(getActivity(), "Student Registered", Toast.LENGTH_SHORT).show();
                                                         }
                                                     }).addOnFailureListener(new OnFailureListener() {

@@ -164,6 +164,7 @@
                 android:layout_height="wrap_content"
                 android:button="?android:attr/listChoiceIndicatorMultiple"
                 android:buttonTint="@color/teal_200"
+                android:textColor="@color/black"
                 android:text="Remenber me" />
 
             <TextView
@@ -171,6 +172,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:layout_weight="0.1"
+                android:visibility="gone"
                 android:text="Forgot Password" />
 
         </LinearLayout>
