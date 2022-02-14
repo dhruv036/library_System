@@ -1,7 +1,6 @@
 package com.example.library_system.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -130,7 +129,7 @@ public class Register_Fragment extends Fragment {
                                     }
                                     fragmentBinding.loading.setVisibility(View.GONE);
                                     fragmentBinding.subbut.setVisibility(View.VISIBLE);
-                                    Toast.makeText(getActivity(), "User not present", Toast.LENGTH_SHORT).show();
+                                   // Toast.m  vb  cxakeText(getActivity(), "User not present", Toast.LENGTH_SHORT).show();
                                 }
                             }
 

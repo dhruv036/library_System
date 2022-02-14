@@ -101,6 +101,14 @@
             android:background="@drawable/roundbutton"
             android:backgroundTint="@null"
             android:text=" Add Book " />
+        <Button
+            android:id="@+id/searchbook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_2sdp"
+            android:background="@drawable/roundbutton"
+            android:backgroundTint="@null"
+            android:text="Search Book" />
     </LinearLayout>
 
     <LinearLayout
