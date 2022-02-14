@@ -64,7 +64,7 @@ public class Register_Fragment extends Fragment {
                                         fragmentBinding.subbut.setVisibility(View.VISIBLE);
                                         Toast.makeText(getActivity(), "User present Already please Login", Toast.LENGTH_SHORT).show();
                                     } else {
-
+                                        fragmentBinding.loading.setVisibility(View.GONE);
                                     }
                                 } else {
                                     String pass = fragmentBinding.passinput.getText().toString();
@@ -136,7 +136,7 @@ public class Register_Fragment extends Fragment {
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-
+                                fragmentBinding.loading.setVisibility(View.GONE);
                             }
                         });
                     } else {

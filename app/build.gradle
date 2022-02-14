@@ -48,6 +48,7 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:4.3.0'
     implementation 'com.google.zxing:core:3.2.1'
     def lottieVersion = "3.4.0"
+    implementation 'br.com.simplepass:loading-button-android:2.2.0'
     implementation "com.airbnb.android:lottie:$lottieVersion"
 }
 apply plugin: 'com.google.gms.google-services'

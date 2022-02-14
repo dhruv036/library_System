@@ -39,6 +39,9 @@ public class SplashActivity extends AppCompatActivity {
         boolean usertype;
         if (preferences.getString("username", null) != null) {
             //User saved
+            binding.card.setVisibility(View.GONE);
+            binding.loadingsplash.setVisibility(View.VISIBLE);
+
             username = preferences.getString("username", null);
             int index = username.indexOf("@");
             tempname = username.substring(0, index);
@@ -66,6 +69,7 @@ public class SplashActivity extends AppCompatActivity {
                                 FeatureController.getController().setEmp_email(user.getUser_email());
                                 FeatureController.getController().setEmp_name(user.getUser_name());
                                 intent.putExtra("username", user.getUser_name());
+                                binding.loadingsplash.setVisibility(View.GONE);
                                 startActivity(intent);
                             }else {
                                 Toast.makeText(SplashActivity.this, "Plz Login Again", Toast.LENGTH_SHORT).show();

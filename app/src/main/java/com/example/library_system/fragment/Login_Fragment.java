@@ -90,10 +90,13 @@ public class Login_Fragment extends Fragment {
                                                 Toast.makeText(getActivity(), "User not present", Toast.LENGTH_SHORT).show();
                                             }
                                         }
+                                        Toast.makeText(getActivity(), "User not present", Toast.LENGTH_SHORT).show();
+                                        binding.loading.setVisibility(View.GONE);
                                     }
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
+                                        binding.loading.setVisibility(View.GONE);
                                     }
                                 });
                             } else {
@@ -133,19 +136,24 @@ public class Login_Fragment extends Fragment {
                                                 Toast.makeText(getActivity(), "User not present", Toast.LENGTH_SHORT).show();
                                             }
                                         }
+                                        Toast.makeText(getActivity(), "User not present", Toast.LENGTH_SHORT).show();
+                                        binding.loading.setVisibility(View.GONE);
                                     }
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
+                                        binding.loading.setVisibility(View.GONE);
                                     }
                                 });
                             }
+                            binding.loading.setVisibility(View.GONE);
                         } else {
                             binding.loading.setVisibility(View.GONE);
                             binding.loginbut.setVisibility(View.VISIBLE);
                             Toast.makeText(getActivity(), "Please enter Password", Toast.LENGTH_SHORT).show();
                         }
                     } else {
+                        binding.loading.setVisibility(View.GONE);
 
                     }
                 } else {
