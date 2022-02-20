@@ -9,14 +9,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.airbnb.lottie.L;
+import com.example.library_system.adapter.Book_list_Adapter;
 import com.example.library_system.databinding.ActivityEmployeeDashboardBinding;
 import com.example.library_system.modal_class.BookModal;
 import com.example.library_system.modal_class.Bookinfo;
@@ -33,12 +39,13 @@ import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
+import java.util.Locale;
 
 
 public class EmployeeDashboard extends AppCompatActivity {
 
     ActivityEmployeeDashboardBinding binding;
+
     String scnresult;
     String stu_name, stu_email;
     ArrayList<BookModal> bookinfo = new ArrayList<>();
@@ -80,7 +87,7 @@ public class EmployeeDashboard extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         binding.teachName.setText(getIntent().getStringExtra("username"));
         preferences = getSharedPreferences("User_details", Context.MODE_PRIVATE);
-        preferenceseditor =preferences.edit();
+        preferenceseditor = preferences.edit();
 //        try {
 //            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
 //            Bitmap bitmap = barcodeEncoder.encodeBitmap(code, BarcodeFormat.QR_CODE, 400, 400);
@@ -88,7 +95,6 @@ public class EmployeeDashboard extends AppCompatActivity {
 //            imageViewQrCode.setImageBitmap(bitmap);
 //        } catch(Exception e) {
 //        }
-
 
 
         //? TO SET NO OF BOOKS(TODAY)
@@ -106,17 +112,100 @@ public class EmployeeDashboard extends AppCompatActivity {
 //        }
 
 
-
-
         //------------------------------------------------- -----------------------------------------------//
+        //? Seach Book
+        binding.searchbook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.card2.setVisibility(View.VISIBLE);
+            }
+        });
+        binding.autocptbbook.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //           getseach(charSequence.toString());
+                database.getReference().child("Book_table").orderByChild("bookname").startAt(charSequence.toString().toLowerCase(Locale.ROOT)).endAt(charSequence.toString().toLowerCase(Locale.ROOT) + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            ArrayList<String> name = new ArrayList<>();
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                if (!name.contains(snapshot1.child("bookname").getValue(String.class))) {
+                                    name.add(snapshot1.child("bookname").getValue(String.class));
+                                }
+                            }
+                            ArrayAdapter<String> adapter = new ArrayAdapter(getApplicationContext(), R.layout.mytextview, name.toArray());
+                            binding.autocptbbook.setAdapter(adapter);
+                            binding.autocptbbook.setThreshold(1);
+                            binding.autocptbbook.setAdapter(adapter);
+                            Log.i("Yes", "data prsent");
+                        } else {
+                            Log.i("no", "no data");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
+                });
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
+        binding.autocptbauthor.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                database.getReference().child("Book_table").orderByChild("bookAuthor").startAt(charSequence.toString().toLowerCase(Locale.ROOT)).endAt(charSequence.toString().toLowerCase(Locale.ROOT) + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            ArrayList<String> name = new ArrayList<>();
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                if (!name.contains(snapshot1.child("bookAuthor").getValue(String.class))) {
+                                    name.add(snapshot1.child("bookAuthor").getValue(String.class));
+                                }
+                            }
+                            ArrayAdapter<String> adapter = new ArrayAdapter(getApplicationContext(), R.layout.mytextview, name.toArray());
+                            binding.autocptbauthor.setAdapter(adapter);
+                            binding.autocptbauthor.setThreshold(1);
+                            binding.autocptbauthor.setAdapter(adapter);
+
+                            Log.i("Yes", "data prsent");
+                        } else {
+                            Log.i("no", "no data");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
 
         //? SHOW HISTORY
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         binding.bookhistory.setLayoutManager(manager);
-
         binding.showHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                binding.card2.setVisibility(View.GONE);
+                binding.card.setVisibility(View.GONE);
                 binding.nested.setVisibility(View.VISIBLE);
                 binding.loading.setVisibility(View.VISIBLE);
                 database.getReference().child("Issued_Book_Emp").child(stremail).orderByKey().limitToLast(10).addValueEventListener(new ValueEventListener() {
@@ -189,8 +278,7 @@ public class EmployeeDashboard extends AppCompatActivity {
 
 
         //-------------------------------------------------  -----------------------------------------------//
-
-
+        //! Scanner Result
         final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
                 result -> {
                     if (scantype == 0) {   //? RETURN EMAIL FOR CHECK USER
@@ -226,7 +314,9 @@ public class EmployeeDashboard extends AppCompatActivity {
                     }
 
                 });
-        //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
+
+        //* Github token
+        // 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
 
         //? SCAN FOR BOOK DEPOSITE
         binding.depositebook.setOnClickListener(new View.OnClickListener() {
@@ -245,37 +335,42 @@ public class EmployeeDashboard extends AppCompatActivity {
         binding.subbookbt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               issuebookfun();
+                issuebookfun();
             }
         });
-
         binding.scanbook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 scantype = 1; // scan book id
                 ScanOptions options = new ScanOptions();
                 options.setTorchEnabled(true);
+
                 options.setPrompt("Scaning QR");
                 options.setTimeout(5000);
                 barcodeLauncher.launch(new ScanOptions());
             }
         });
-
         binding.issuebook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 scantype = 0;  //scan user
+                binding.card2.setVisibility(View.GONE);
+
+            //    binding.card.setVisibility(View.VISIBLE);
                 ScanOptions options = new ScanOptions();
                 options.setTorchEnabled(true);
                 options.setPrompt("Scaning QR");
+                options.setOrientationLocked(true);
                 options.setTimeout(5000);
                 barcodeLauncher.launch(new ScanOptions());
             }
         });
-// TO ADD A BOOK TO DATABASE
+        //? TO ADD A BOOK TO DATABASE
         binding.addbook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                binding.card2.setVisibility(View.GONE);
+                binding.card.setVisibility(View.GONE);
                 AlertDialog.Builder alert = new AlertDialog.Builder(EmployeeDashboard.this);
 
 //                LinearLayout layout = new LinearLayout(EmployeeDashboard.this);
@@ -300,12 +395,14 @@ public class EmployeeDashboard extends AppCompatActivity {
                 alert.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        EditText bid, bname;
+                        EditText bid, bname, bauthor;
                         bid = v.findViewById(R.id.subbookid);
                         bname = v.findViewById(R.id.subbookname);
                         String id = bid.getText().toString();
-                        String name = bname.getText().toString();
-                        Bookinfo bookinfo = new Bookinfo(id, name, false);
+                        String name = bname.getText().toString().toLowerCase(Locale.ROOT);
+                        bauthor = v.findViewById(R.id.subbookauthor);
+                        String author = bauthor.getText().toString().toLowerCase(Locale.ROOT);
+                        Bookinfo bookinfo = new Bookinfo(id, name, author, false,"");
                         database.getReference().child("Book_table").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -331,10 +428,48 @@ public class EmployeeDashboard extends AppCompatActivity {
                 alert.show();
             }
         });
+
+        binding.sbook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String b, a;
+                b = binding.autocptbbook.getText().toString();
+                a = binding.autocptbauthor.getText().toString();
+                database.getReference().child("Book_table").orderByChild("bookname").equalTo(b).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            ArrayList<Bookinfo> namelist = new ArrayList<>();
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                if (snapshot1.child("bookAuthor").getValue(String.class).equals(a.toLowerCase(Locale.ROOT))) {
+                                    namelist.add(snapshot1.getValue(Bookinfo.class));
+                                    Log.i("tag", snapshot1.child("bookAuthor").getValue(String.class));
+                                    Log.i("tags", String.valueOf(namelist.size()));
+                                }
+                            }
+                            if (namelist.size() < 1) {
+                                Log.i("tags", "No book");
+                                binding.card2.setVisibility(View.GONE);
+                            }
+                            binding.serbook.setLayoutManager(new LinearLayoutManager(EmployeeDashboard.this));
+                            binding.serbook.setAdapter(new Book_list_Adapter(namelist, EmployeeDashboard.this));
+//                            ArrayAdapter<String> adapter = new ArrayAdapter(getApplicationContext(), R.layout.mytextview, namelist.toArray());
+//                            binding.serbook.setAdapter();
+                            //   binding.card2.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+            }
+        });
     }
 
     public void checkbook(String bookid) {
-        if (bookid != null && !(bookid.equals(""))) {
+        if (bookid != null && !(bookid.equals("")) && !bookid.contains(".")) {
             database.getReference().child("Book_table").child(bookid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -343,26 +478,31 @@ public class EmployeeDashboard extends AppCompatActivity {
 
                         if (bookid.equals(id)) {
                             Bookinfo info = snapshot.getValue(Bookinfo.class);
-                            if (info.getBookstatus() == false) {
+                            if (info.isBookstatus() == false) {
                                 bookname = info.getBookname();
                                 binding.bookName.setText(bookname);
                                 binding.subbookbt.setVisibility(View.VISIBLE);
-                                scantype =0;
+                                scantype = 0;
                                 Toast.makeText(EmployeeDashboard.this, "" + bookname, Toast.LENGTH_SHORT).show();
+                                binding.scanbook.setText("ReScan");
                             } else {
                                 binding.subbookbt.setVisibility(View.GONE);
                                 Toast.makeText(EmployeeDashboard.this, info.getBookname() + " already issued", Toast.LENGTH_SHORT).show();
+                                binding.scanbook.setText("ReScan Book");
                             }
                         }
                     } else {
                         Toast.makeText(EmployeeDashboard.this, "Book not present", Toast.LENGTH_SHORT).show();
                     }
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 
                 }
             });
+        }else {
+            Toast.makeText(EmployeeDashboard.this, "Invalid Book", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -388,6 +528,7 @@ public class EmployeeDashboard extends AppCompatActivity {
                         Toast.makeText(EmployeeDashboard.this, "User not Found", Toast.LENGTH_SHORT).show();
                     }
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                 }
@@ -406,20 +547,19 @@ public class EmployeeDashboard extends AppCompatActivity {
                     for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                         BookModal bookModal = snapshot1.getValue(BookModal.class);
                         if (bookModal.getBook_id().equals(id)) {
-                            int in= bookModal.getStu_email().indexOf("@");
-                            String trimname  = bookModal.getStu_email().substring(0,in);
+                            int in = bookModal.getStu_email().indexOf("@");
+                            String trimname = bookModal.getStu_email().substring(0, in);
                             database.getReference().child("Issued_Book_Emp").child(stremail).child(snapshot1.getKey()).removeValue();
-                            Bookinfo bookinfo = new Bookinfo(id, bookModal.getBook_name(), false);
-                            database.getReference().child("Book_table").child(id).setValue(bookinfo);
-
-                            database.getReference().child("Issued_Book_Stu").child(trimname).child("Books").child(snapshot1.getKey()).removeValue();                           count_book();
+                            database.getReference().child("Book_table").child(id).child("bookstatus").setValue(false);
+                            database.getReference().child("Book_table").child(scnresult).child("stuemail").setValue("");
+                            database.getReference().child("Issued_Book_Stu").child(trimname).child("Books").child(snapshot1.getKey()).removeValue();
+                            count_book();
                             database.getReference().child("Issued_Book_Stu").child(trimname).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if(snapshot.exists())
-                                    {
+                                    if (snapshot.exists()) {
                                         int ii = snapshot.child("noofbook").getValue(Integer.class);
-                                        database.getReference().child("Issued_Book_Stu").child(trimname).child("noofbook").setValue(ii-1);
+                                        database.getReference().child("Issued_Book_Stu").child(trimname).child("noofbook").setValue(ii - 1);
                                     }
                                 }
 
@@ -441,7 +581,7 @@ public class EmployeeDashboard extends AppCompatActivity {
         });
     }
 
-    public void count_book(){
+    public void count_book() {
         database.getReference().child("Issued_Book_Emp").child(stremail).orderByChild("issue_date").limitToLast(100).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -458,44 +598,45 @@ public class EmployeeDashboard extends AppCompatActivity {
                     binding.noOfBook.setText(String.valueOf(counter));
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
     }
-    public void issuebookfun()
-    {
+
+    public void issuebookfun() {
         if (bookname != null && !(bookname.equals(""))) {
             Calendar calendar = Calendar.getInstance();
             Long time = calendar.getTimeInMillis();
             BookModal bookModal = new BookModal(stu_name, stu_email, bookname, scnresult, time);
-            int index  =stu_email.indexOf("@");
-            String stuem = stu_email.substring(0,index);
+            int index = stu_email.indexOf("@");
+            String stuem = stu_email.substring(0, index);
+            //? Check Limit
             database.getReference().child("Issued_Book_Stu").child(stuem).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if(snapshot.exists())
-                    {
+                    if (snapshot.exists()) {
                         int ii = snapshot.child("noofbook").getValue(Integer.class);
-                        if(ii<3)
-                        {
+                        if (ii < 3) {
                             database.getReference().child("Issued_Book_Emp").child(stremail)
                                     .child(String.valueOf(calendar.getTimeInMillis()))
                                     .setValue(bookModal).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
-                                    Bookinfo bookinfo = new Bookinfo(scnresult, bookname, true);
-                                    database.getReference().child("Book_table").child(scnresult).setValue(bookinfo);
-                                    database.getReference().child("Issued_Book_Stu").child(stuem).child("Books").child(String.valueOf(time)).setValue(new Bookmodal_Stu(getIntent().getStringExtra("username"),bookname, scnresult,time));
-                                    database.getReference().child("Issued_Book_Stu").child(stuem).child("noofbook").setValue(ii+1);
+                                    database.getReference().child("Book_table").child(scnresult).child("bookstatus").setValue(true);
+                                    database.getReference().child("Book_table").child(scnresult).child("stuemail").setValue(stuem);
+                                    database.getReference().child("Issued_Book_Stu").child(stuem).child("Books").child(String.valueOf(time)).setValue(new Bookmodal_Stu(getIntent().getStringExtra("username"), bookname, scnresult, time));
+                                    database.getReference().child("Issued_Book_Stu").child(stuem).child("noofbook").setValue(ii + 1);
                                     Toast.makeText(EmployeeDashboard.this, "Booked Issued Successfully", Toast.LENGTH_SHORT).show();
                                     binding.stuName.setText("");
                                     binding.bookName.setText("");
                                     binding.card.setVisibility(View.GONE);
+                                    binding.scanbook.setText("Scan Book");
                                 }
                             });
-                        }else {
+                        } else {
                             Toast.makeText(EmployeeDashboard.this, "Limit exceed", Toast.LENGTH_SHORT).show();
                         }
 
@@ -511,8 +652,7 @@ public class EmployeeDashboard extends AppCompatActivity {
         }
     }
 
-    public void paginatehistory(Long index)
-    {
+    public void paginatehistory(Long index) {
         binding.loading.setVisibility(View.VISIBLE);
 //        database.getReference().child("Issued_Book_Emp").child(stremail).orderByKey().endAt(index).limitToLast(2).addValueEventListener(new ValueEventListener() {
 //            @Override
@@ -539,8 +679,10 @@ public class EmployeeDashboard extends AppCompatActivity {
 //
 //            }
 //        });
-        BookModal modal= new BookModal("fg6666dg","fgdfg","dgfggd","12",1644666001145l);
+        BookModal modal = new BookModal("fg6666dg", "fgdfg", "dgfggd", "12", 1644666001145l);
         bookinfo.add(modal);
         adapter.notifyDataSetChanged();
     }
+
+
 }

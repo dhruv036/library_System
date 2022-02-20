@@ -44,15 +44,25 @@
             android:hint="Enter Book id"
             />
         <EditText
-            android:id="@+id/subbookname"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:fontFamily="@font/raleway_extrabold"
-            android:padding="@dimen/_5sdp"
-            android:textSize="@dimen/_16sdp"
-            android:hint="Enter Book name"
-            />
+                android:id="@+id/subbookname"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:fontFamily="@font/raleway_extrabold"
+                android:padding="@dimen/_5sdp"
+                android:textSize="@dimen/_16sdp"
+                android:hint="Enter Book name"
+                />
+                <EditText
+                    android:id="@+id/subbookauthor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:fontFamily="@font/raleway_extrabold"
+                    android:padding="@dimen/_5sdp"
+                    android:textSize="@dimen/_16sdp"
+                    android:hint="Enter Book Author"
+                    />
 
 <!--        <LinearLayout-->
 <!--            android:layout_width="match_parent"-->
