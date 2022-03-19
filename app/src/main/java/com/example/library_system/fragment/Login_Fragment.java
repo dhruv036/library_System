@@ -28,7 +28,9 @@ import java.util.regex.Pattern;
 
 public class Login_Fragment extends Fragment {
     LoginFragmentBinding binding;
+
     FirebaseDatabase database;
+
     SharedPreferences preferences;
     SharedPreferences.Editor preferenceseditor;
 

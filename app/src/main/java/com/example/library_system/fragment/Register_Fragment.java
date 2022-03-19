@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 
 public class Register_Fragment extends Fragment {
     RegisterfragmentBinding fragmentBinding;
+    
     FirebaseDatabase database;
 
     @Nullable

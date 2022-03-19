@@ -626,7 +626,7 @@ public class EmployeeDashboard extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     database.getReference().child("Book_table").child(scnresult).child("bookstatus").setValue(true);
-                                    database.getReference().child("Book_table").child(scnresult).child("stuemail").setValue(stuem);
+                                    database.getReference().child("Book_table").child(scnresult).child("stuemail").setValue(stu_email);
                                     database.getReference().child("Issued_Book_Stu").child(stuem).child("Books").child(String.valueOf(time)).setValue(new Bookmodal_Stu(getIntent().getStringExtra("username"), bookname, scnresult, time));
                                     database.getReference().child("Issued_Book_Stu").child(stuem).child("noofbook").setValue(ii + 1);
                                     Toast.makeText(EmployeeDashboard.this, "Booked Issued Successfully", Toast.LENGTH_SHORT).show();

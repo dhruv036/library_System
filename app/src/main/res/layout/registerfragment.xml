@@ -60,7 +60,6 @@
                             android:textSize="@dimen/_10ssp" />
 
                         <EditText
-                            android:padding="@dimen/_3sdp"
                             android:id="@+id/nameinput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -68,6 +67,7 @@
                             android:background="@null"
                             android:fontFamily="@font/raleway_extrabold"
                             android:hint="Enter"
+                            android:padding="@dimen/_3sdp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/white"
                             android:textSize="@dimen/_12ssp"
@@ -127,7 +127,6 @@
                             android:textSize="@dimen/_10ssp" />
 
                         <EditText
-                            android:padding="@dimen/_3sdp"
                             android:id="@+id/emailinput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -135,6 +134,7 @@
                             android:background="@null"
                             android:fontFamily="@font/raleway_extrabold"
                             android:hint="Enter"
+                            android:padding="@dimen/_3sdp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/white"
                             android:textSize="@dimen/_12ssp"
@@ -193,7 +193,6 @@
                             android:textSize="@dimen/_10ssp" />
 
                         <EditText
-                            android:padding="@dimen/_3sdp"
                             android:id="@+id/passinput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -201,6 +200,7 @@
                             android:background="@null"
                             android:fontFamily="@font/raleway_extrabold"
                             android:hint="Enter"
+                            android:padding="@dimen/_3sdp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/white"
                             android:textSize="@dimen/_12ssp"
@@ -259,7 +259,6 @@
                             android:textSize="@dimen/_10ssp" />
 
                         <EditText
-                            android:padding="@dimen/_3sdp"
                             android:id="@+id/conpassinput"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -267,6 +266,7 @@
                             android:background="@null"
                             android:fontFamily="@font/raleway_extrabold"
                             android:hint="Enter"
+                            android:padding="@dimen/_3sdp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/white"
                             android:textSize="@dimen/_12ssp"
@@ -295,19 +295,18 @@
                 android:text="LOGIN ->"
                 android:textAllCaps="true"
                 android:textStyle="bold"
-                app:backgroundTint="@null"/>
+                app:backgroundTint="@null" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/loading"
-                android:layout_marginTop="-10dp"
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="@dimen/_60sdp"
                 android:layout_gravity="center_horizontal"
-                app:lottie_autoPlay="true"
+                android:layout_marginTop="-10dp"
                 android:visibility="gone"
+                app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/loading_animation"
-                />
+                app:lottie_rawRes="@raw/loading_animation" />
 
 
         </LinearLayout>
